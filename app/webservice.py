@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, Query, applications
 from fastapi.responses import StreamingResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.middleware.cors import CORSMiddleware
 import whisper
 from whisper.utils import write_srt, write_vtt
 from whisper import tokenizer
@@ -15,7 +16,8 @@ from io import StringIO
 from threading import Lock
 import torch
 import fastapi_offline_swagger_ui
-import importlib.metadata 
+import importlib.metadata
+
 
 SAMPLE_RATE=16000
 LANGUAGE_CODES=sorted(list(tokenizer.LANGUAGES.keys()))
@@ -34,6 +36,12 @@ app = FastAPI(
         "url": projectMetadata['License']
     }
 )
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+)
+
 
 assets_path = fastapi_offline_swagger_ui.__path__[0]
 if path.exists(assets_path + "/swagger-ui.css") and path.exists(assets_path + "/swagger-ui-bundle.js"):
