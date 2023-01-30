@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.9.9-slim
 
 ENV POETRY_VERSION=1.2.0
 ENV POETRY_VENV=/app/.venv
@@ -26,4 +26,4 @@ COPY . /app
 RUN poetry config virtualenvs.in-project true
 RUN poetry install
 
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:9000", "--workers", "4", "--timeout", "30", "app.webservice:app", "-k", "uvicorn.workers.UvicornWorker"]
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:9000", "--workers", "1", "--timeout", "30", "app.webservice:app", "-k", "uvicorn.workers.UvicornWorker"]
