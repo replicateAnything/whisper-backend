@@ -14,7 +14,7 @@ RUN python3 -m venv $POETRY_VENV \
     && $POETRY_VENV/bin/pip install poetry==${POETRY_VERSION}
 
 ARG TARGETPLATFORM
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then $POETRY_VENV/bin/pip install torch==1.13.0 -f https://download.pytorch.org/whl/cpu; fi;
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then $POETRY_VENV/bin/pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu; fi;
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ]; then $POETRY_VENV/bin/pip install torch==1.13.0; fi;
 
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
